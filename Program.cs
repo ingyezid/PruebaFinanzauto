@@ -1,3 +1,7 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using PruebaFinanzauto.DataContext;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,7 +11,27 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+// base de datos en memoria
+builder.Services.AddDbContext<ProjectContext>(p => p.UseInMemoryDatabase("DbFinanzauto"));
+
+
 var app = builder.Build();
+
+
+
+app.MapGet("/dbconexion", async ([FromServices] ProjectContext dbContext) =>
+{
+    bool dbCreated = dbContext.Database.EnsureCreated();
+
+    string result0 = "Base de datos recien creada: " + dbCreated;
+    string result1 = "Base de datos en memoria: " + dbContext.Database.IsInMemory();
+    string result2 = "Base de datos relacional: " + dbContext.Database.IsRelational();
+    string result3 = "Base de datos sql server: " + dbContext.Database.IsSqlServer();
+    string sumaResultado = " <p> " + result0 + " <br/> " + result1 + " <br/> " + result2 + " <br/> " + result3 + "</p>";
+
+    return Results.Ok(sumaResultado);
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
