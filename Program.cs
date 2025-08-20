@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PruebaFinanzauto.DataContext;
+using PruebaFinanzauto.DataSeeder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,7 @@ var app = builder.Build();
 using (var context = new ProjectContext(app.Configuration))
 {
     context.Database.Migrate();
+    DataSeeder.Seed(context);
 }
 
 app.MapGet("/dbconexion", async ([FromServices] ProjectContext dbContext) =>
