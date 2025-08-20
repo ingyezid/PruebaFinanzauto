@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace PruebaFinanzauto.Models
 {
@@ -18,9 +19,12 @@ namespace PruebaFinanzauto.Models
         public int Credits { get; set; }
 
         public Guid TeacherId { get; set; }
-        public virtual Teacher Teacher { get; set; }
 
-        public virtual ICollection<Grade> Grades { get; set; }
+        [JsonIgnore]
+        public virtual Teacher? Teacher { get; set; }
+
+        [JsonIgnore]
+        public virtual ICollection<Grade>? Grades { get; set; }
 
     }
 }
