@@ -5,8 +5,18 @@ namespace PruebaFinanzauto.DataContext
 {
     public class ProjectContext : DbContext
     {
-        public ProjectContext(DbContextOptions<ProjectContext> options) : base(options) { }
 
+        protected readonly IConfiguration _config;
+
+        public ProjectContext(IConfiguration configuration)
+        {
+            _config = configuration;
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(_config.GetConnectionString("conexionProject"));
+        }
+        
         public DbSet<Student> Students { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Course> Courses { get; set; }

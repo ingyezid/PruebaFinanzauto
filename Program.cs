@@ -13,12 +13,19 @@ builder.Services.AddSwaggerGen();
 
 
 // base de datos en memoria
-builder.Services.AddDbContext<ProjectContext>(p => p.UseInMemoryDatabase("DbFinanzauto"));
+// builder.Services.AddDbContext<ProjectContext>(p => p.UseInMemoryDatabase("DbFinanzauto"));
+
+// base de datos relacional y en sql server
+builder.Services.AddSqlServer<ProjectContext>(builder.Configuration.GetConnectionString("conexionProject"));
 
 
 var app = builder.Build();
 
-
+// Para que se actualice la base de datos tan pronto se lanza o dice run sin abrir el navegador
+using (var context = new ProjectContext(app.Configuration))
+{
+    context.Database.Migrate();
+}
 
 app.MapGet("/dbconexion", async ([FromServices] ProjectContext dbContext) =>
 {
