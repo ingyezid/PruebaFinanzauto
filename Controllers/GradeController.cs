@@ -8,6 +8,7 @@ namespace PruebaFinanzauto.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class GradeController : ControllerBase
     {
         private readonly ProjectContext _context;
@@ -60,9 +61,9 @@ namespace PruebaFinanzauto.Controllers
                 return NotFound();
 
             gradeFind.Score = grade.Score;
-            gradeFind.CourseId = grade.CourseId;           
+            gradeFind.CourseId = grade.CourseId;
             gradeFind.StudentId = grade.StudentId;
-            
+
 
             await _context.SaveChangesAsync();
 

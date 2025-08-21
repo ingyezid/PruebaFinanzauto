@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PruebaFinanzauto.DataContext;
 using PruebaFinanzauto.Models;
@@ -6,7 +7,7 @@ using PruebaFinanzauto.Models;
 namespace PruebaFinanzauto.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]")]   
     public class StudentController : ControllerBase
     {
         private readonly ProjectContext _context;
@@ -17,12 +18,14 @@ namespace PruebaFinanzauto.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Student>>> GetStudents()
         {
             return await _context.Students.ToListAsync();
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<Student>> GetStudent(Guid id)
         {
             var student = await _context.Students.FindAsync(id);
@@ -34,6 +37,7 @@ namespace PruebaFinanzauto.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Student>> PostStudent(Student student)
         {
             _context.Students.Add(student);
@@ -43,6 +47,7 @@ namespace PruebaFinanzauto.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutStudent(Guid id, Student student)
         {
             if (id != student.Id)
@@ -63,6 +68,7 @@ namespace PruebaFinanzauto.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteStudent(Guid id)
         {
             var student = await _context.Students.FindAsync(id);

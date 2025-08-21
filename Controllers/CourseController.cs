@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PruebaFinanzauto.DataContext;
 using PruebaFinanzauto.Models;
@@ -8,6 +9,7 @@ namespace PruebaFinanzauto.Controllers
 
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class CourseController : Controller
     {
 

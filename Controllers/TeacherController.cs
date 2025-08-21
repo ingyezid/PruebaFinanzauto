@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PruebaFinanzauto.DataContext;
 using PruebaFinanzauto.Models;
@@ -7,6 +8,7 @@ namespace PruebaFinanzauto.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class TeacherController : ControllerBase
     {
         private readonly ProjectContext _context;
@@ -56,7 +58,7 @@ namespace PruebaFinanzauto.Controllers
             teacherFind.FirstName = teacher.FirstName;
             teacherFind.LastName = teacher.LastName;
             teacherFind.Courses = teacher.Courses;
-           
+
             await _context.SaveChangesAsync();
 
             return NoContent();
